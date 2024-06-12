@@ -17,8 +17,12 @@ function toTitleCase(str) {
     });
 }
 
-app.get('/story/:id', (req, res) => {
-    fs.readFile(`./stories/${req.params.id}.json`, 'utf8', (err, data) => {
+app.get('/', (req, res) => {
+    res.redirect('/the-healing-bond');
+});
+
+app.get('/:slug', (req, res) => {
+    fs.readFile(`./stories/${req.params.slug}.json`, 'utf8', (err, data) => {
         if (err) {
             console.error('An error occurred:', err);
             return;
