@@ -2,8 +2,20 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const fs = require('fs');
+const morgan = require('morgan')
 
 const PORT = process.env.PORT || 3000;
+
+// create the 'logs' directory if it doesn't exist
+if (!fs.existsSync(path.join(__dirname, 'logs'))) {
+    fs.mkdirSync(path.join(__dirname, 'logs'));
+}
+
+// create a write stream (in append mode)
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'logs', 'access.log'), { flags: 'a' })
+
+// setup the logger
+app.use(morgan('combined', { stream: accessLogStream }))
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
