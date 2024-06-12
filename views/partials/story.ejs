@@ -1,0 +1,89 @@
+<div id="main">
+  <img src="<%= jsonData.image %>" class="desktop" alt="<%= jsonData.imageAltText[1] %>">
+  <img src="<%= jsonData.mobileImage %>" class="mobile" alt="<%= jsonData.imageAltText[1] %>">
+  <div id="story">
+    <div id="headline">
+      <p>Story</p>
+      <div class="block"></div>
+      <div class="story-num">
+        <%= jsonData.storyNum %>
+      </div>
+    </div>
+    <h1 class="title">
+      <%= jsonData.title %>
+    </h1>
+    <h2 class="author">by <%= jsonData.author %>
+    </h2>
+    <div class="content"><%- jsonData.story %></div>
+    <div class="affiliate-link">
+      <p class="sponsored">Sponsored Link</p>
+      <a href="<%= jsonData.affiliateLink %>" type="button" class="custom-btn btn-11" target="_blank">
+        <%= toTitleCase(jsonData.productName) %>
+      </a>
+    </div>
+    <div class="nav">
+      <% if (jsonData.prev) { %>
+        <a class="prev" href="<%= jsonData.prev %>">PREV</a>
+        <% } %>
+      <% if (jsonData.next) { %>
+        <a class="next" href="<%= jsonData.next %>">NEXT</a>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">×</span>
+    <img id="modal-image" src="<%= jsonData.image %>" alt="<%= jsonData.imageAltText[1] %>">
+  </div>
+</div>
+
+<script>
+  // Get the modal
+  const modal = document.getElementById("modal");
+
+  // Get the image and insert it inside the modal - use its "alt" text as a caption
+  const img = document.querySelector(".mobile");
+  const modalImg = document.getElementById("modal-image");
+  img.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  // Get the <span> element that closes the modal
+  const span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() { 
+    modal.style.display = "none";
+  }
+
+  function responsiveLayoutAdjustment() {
+    if (window.innerWidth >= 1067) {
+      const title = document.querySelector('.title');
+      const content = document.querySelector('.content');
+
+      // Get the height of the h1 element
+      const titleHeight = title.offsetHeight;
+
+      // Get the current height of the content div
+      const contentHeight = content.offsetHeight;
+
+      // Decrease the height of the content div by the height of the h1 element
+      content.style.height = `${contentHeight - titleHeight}px`;
+    }
+
+    const story = document.querySelector('#story');
+    const affiliateLink = document.querySelector('.affiliate-link');
+
+    if (window.innerWidth <= 1067) {
+      document.querySelector('#main').insertBefore(affiliateLink, story);
+  
+    } else {
+      story.insertBefore(affiliateLink, document.querySelector('#story .nav'));
+    }
+  }
+
+  responsiveLayoutAdjustment();
+  window.onresize = responsiveLayoutAdjustment;
+</script>
