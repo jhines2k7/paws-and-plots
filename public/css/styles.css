@@ -141,6 +141,7 @@ p {
 
 .btn-11 {
   margin-top: 10px;
+  display: grid;
   border: none;
   background-image: linear-gradient(
     315deg,
